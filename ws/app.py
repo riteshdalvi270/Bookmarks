@@ -1,3 +1,5 @@
+# this was just used for practise.
+
 from flask import Flask, jsonify, request, Response
 from validator import Validator
 
