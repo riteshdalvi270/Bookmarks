@@ -27,7 +27,8 @@ def index():
 @app.route("/add", method =['POST', 'GET'])
 def add_bookmark():
     if(request.method == "POST"):
-
+        url_to_be_bookmarked = request.form('url'); #url is the name of the text input in the form.
+        store_bookmarks(url_to_be_bookmarked)
     return render_template('add.html')   
 
 @app.errorhandler(400)
