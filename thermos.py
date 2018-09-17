@@ -1,4 +1,9 @@
-from flask import Flask, jsonify, request, Response, render_template,redirect,url_for
+from flask import Flask, jsonify, request, Response, render_template,redirect,url_for, flash
+from datetime import datetime
+from logging import DEBUG
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = b'x\x8au\xd1?f\x18|\xbe\xf0H^\xc4\xf3\xd3\x12\x90)\x1e:\xd3\xcfq\xbb'
 
 class User:
     def __init__(self, firstname, lastname):
@@ -11,24 +16,24 @@ class User:
 bookmarks =[]
 
 def store_bookmarks(url):
-    bookmarks.append(dict{
-        url: url,
-        user: 'reindert'
-        date: datetime.utcnow()
-    })
-    
-app = Flask(__name__)
+    bookmarks.append(dict(
+        url = url,
+        user = 'reindert',
+        date = datetime.utcnow()
+    ))
 
 @app.route("/")
 @app.route("/index")
 def index():
     return render_template('index.html',title='Jinja',value=User('Ritesh','Dalvi').__str__())
 
-@app.route("/add", method =['POST', 'GET'])
+@app.route("/add", methods=['GET', 'POST'])
 def add_bookmark():
-    if(request.method == "POST"):
-        url_to_be_bookmarked = request.form('url'); #url is the name of the text input in the form.
+    if request.method == "POST":
+        url_to_be_bookmarked = request.form['url']; #url is the name of the text input in the form.
         store_bookmarks(url_to_be_bookmarked)
+        flash('Stored Url:'+url_to_be_bookmarked)
+        return redirect(url_for('index'))
     return render_template('add.html')   
 
 @app.errorhandler(400)
