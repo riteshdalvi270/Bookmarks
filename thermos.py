@@ -1,9 +1,17 @@
 from flask import Flask, jsonify, request, Response, render_template,redirect,url_for, flash
 from datetime import datetime
 from logging import DEBUG
+from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
+
+basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SECRET_KEY'] = b'x\x8au\xd1?f\x18|\xbe\xf0H^\xc4\xf3\xd3\x12\x90)\x1e:\xd3\xcfq\xbb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqllite:///' + os.path.join(basedir,'thermos.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 class User:
     def __init__(self, firstname, lastname):
