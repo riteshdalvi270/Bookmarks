@@ -30,10 +30,15 @@ def store_bookmarks(url):
         date = datetime.utcnow()
     ))
 
+# count recent bookmarks
+def new_bookmark(num):
+    return sorted(bookmarks,key=lambda bm:bm['date'],reverse=True)[:num] #look into how we sort in python, also when to use : and =
+
 @app.route("/")
 @app.route("/index")
 def index():
-    return render_template('index.html',title='Jinja',value=User('Ritesh','Dalvi').__str__())
+    #return render_template('index.html',title='Jinja',value=User('Ritesh','Dalvi').__str__())
+    return render_template('index.html', new_bookmarks=new_bookmark(5))
 
 @app.route("/add", methods=['GET', 'POST'])
 def add_bookmark():

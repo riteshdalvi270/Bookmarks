@@ -11,6 +11,16 @@ Thermos -- Welcome
         <p>Thermos is a social bookmarking site.</p>
     </header>
     <section>
+        <h2>Recently Added bookmarks</h2>
+            {% if new_bookmarks %}
+                <ul>
+                    {% for bm in new_bookmarks %}
+                        <li>{{bm.user}} added <a href="{{bm.url}}">{{bm.url}}</a></li>
+                    {% endfor %}    
+                </ul>
+            {% endif %}    
+    </section>
+    <section>
         <h2>{{title}}</h2>
         <p>{{value}}</p>
     </section>
